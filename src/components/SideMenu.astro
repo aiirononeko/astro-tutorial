@@ -1,0 +1,58 @@
+---
+const NAV_ITEMS = [
+  { text: "Core", header: true },
+  { text: "Introduction", link: "/core/introduction" },
+  { text: "Colors", link: "/core/colors" },
+  { text: "Typography", link: "/core/typography" },
+  { text: "Shadows", link: "/core/shadows" },
+
+  { text: "Components", header: true },
+  { text: "Buttons", link: "/components/buttons" },
+  { text: "Input", link: "/components/input" },
+  { text: "Status pills", link: "/components/status-pill" },
+  { text: "Table", link: "/components/table" },
+
+  { text: "Patterns", header: true },
+  { text: "Introduction", link: "/patterns/introduction" },
+];
+
+const isCurrentPage = (item: any) => {
+	if (item.link) {
+		return item.link.includes(currentPageMatch);
+	}
+	return false;
+};
+
+const getLinkClasses = (link) => {
+	const baseClasses = "block py-2 px-6  my-1 transition-colors border-l hover:border-slate-400 text-slate-500 hover:text-slate-900"
+
+	if (isCurrentPage(link)) {
+		return baseClasses + " border-slate-500 text-slate-900";
+	} else {
+		return baseClasses;
+	}
+}
+---
+
+<aside title="Site Navigation">
+	<!-- <Debug content={navigation} /> -->
+	<nav aria-labelledby="grid-left" class="w-64 p-4 border-r">
+		<ul>
+			{NAV_ITEMS.map(item => (item.header ? 
+				<h2 class="mt-4 font-semibold text-slate-700">{item.text}</h2> : 
+        		<li class={getLinkClasses(item)}>
+					<a href={item.link}>{item.text}</a>
+				</li>
+			))}
+		</ul>
+	</nav>
+</aside>
+
+<script is:inline>
+	window.addEventListener('DOMContentLoaded', (event) => {
+		var target = document.querySelector('[aria-current="page"]');
+		if (target && target.offsetTop > window.innerHeight - 100) {
+			document.querySelector('.nav-groups').scrollTop = target.offsetTop;
+		}
+	});
+</script>
